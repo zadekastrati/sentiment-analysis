@@ -1,0 +1,63 @@
+.homepage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background: #2a4b62;
+    color: white;
+    padding: 0 50px;
+  }
+  
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 50%;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin: 0;
+  }
+  
+  .wave {
+    animation: wave 2s infinite;
+  }
+  
+  @keyframes wave {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(20deg);
+    }
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+    margin: 10px 0;
+  }
+  
+  .name-highlight {
+    color: #a259ff; /* Highlight color */
+  }
+  
+  .role {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-top: 20px;
+  }
+  
+  .illustration {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .illustration img {
+    max-width: 70%;
+    height: auto;
+  }
+  
