@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
+import logo from "../homepage/assets/logo.png";
+import Homepage from "../homepage/homepage";
 
 function NavBar() {
   const [navColour, setNavColour] = useState(false);
@@ -32,14 +34,16 @@ function NavBar() {
       className={navColour ? "navbar sticky" : "navbar"}
     >
       <Container>
-        <Navbar.Brand as={Link} to="/">
-          <h1 className="navbar-brand">Sentimetrics</h1>
+        <Navbar.Brand as={Link} to="../homepage/homepage.js">
+          <h1 className="navbar-brand">
+            <img width="180" src={logo}></img>
+          </h1>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
             <Nav.Item>
-              <Nav.Link as={Link} to="/" className="nav-link">
+              <Nav.Link as={Link} to="../homepage/homepage" className="nav-link">
                 Home
               </Nav.Link>
             </Nav.Item>
@@ -49,8 +53,8 @@ function NavBar() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={Link} to="/projects" className="nav-link">
-                Projects
+              <Nav.Link as={Link} to="/services" className="nav-link">
+                Services
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>

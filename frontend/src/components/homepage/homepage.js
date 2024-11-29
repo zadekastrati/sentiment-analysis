@@ -1,7 +1,7 @@
 import React from "react";
 import "./homepage.css";
 import NavBar from "../navbar/navbar";
-import bannerImage from "./assets/banner.png";
+import bannerImage from "./assets/banner.svg";
 
 const Homepage = () => {
   return (
