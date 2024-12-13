@@ -9,7 +9,7 @@ import {
   AiOutlineLogin,
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
-  AiOutlineUser
+  AiOutlineUser,
 } from "react-icons/ai";
 
 function NavBar() {
@@ -61,7 +61,7 @@ function NavBar() {
                 to="/about"
                 onClick={() => updateExpanded(false)}
               >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
+                <AiOutlineUser style={{ marginBottom: "2px" }} /> About 
               </Nav.Link>
             </Nav.Item>
 
@@ -80,14 +80,13 @@ function NavBar() {
 
             <Nav.Item className="login-btn">
               <Button
-                href="/login" 
-                className="login-btn-inner" style={{
+                href="/login"
+                className="login-btn-inner"
+                style={{
                   marginTop: "8px",
                 }}
               >
-                <AiOutlineLogin  style={{ marginBottom: "2px" }}
-                />{" "}
-                Login
+                <AiOutlineLogin style={{ marginBottom: "2px" }} /> Login
               </Button>
             </Nav.Item>
           </Nav>
