@@ -32,3 +32,4 @@ Post.belongsTo(User, {
 return Post;
 };
 
+
