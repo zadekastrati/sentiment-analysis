@@ -61,7 +61,7 @@ function NavBar() {
                 to="/about"
                 onClick={() => updateExpanded(false)}
               >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About 
+                <AiOutlineUser style={{ marginBottom: "2px" }} /> About us
               </Nav.Link>
             </Nav.Item>
 

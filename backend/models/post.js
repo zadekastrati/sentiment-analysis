@@ -1,38 +1,34 @@
-'use strict';
-const { Model } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
-    static associate(models) {
-      // define association here if needed
-    }
+const { DataTypes } = require('sequelize');
+const sequelize = require('../db.js');
+const User = require('./users.js')(sequelize, DataTypes); // Assuming you have a User model
+
+module.exports = (sequelize) => {
+const Post = sequelize.define('Post', {
+  post_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
-  Post.init(
-    {
-      imgPath: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      ghLink: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      demoLink: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-    },
-    {
-      sequelize,
-      modelName: 'Post',
-    }
-  );
-  return Post;
+});
+
+// Setting up the foreign key relation to Users
+Post.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user'
+});
+
+return Post;
 };
+

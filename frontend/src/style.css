@@ -152,11 +152,17 @@ button:focus {
 }
 .navbar-brand {
   color: rgb(250, 250, 250) !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 
 .logo {
-  height: 1.4em !important;
-  width: 2.5em !important;
+  height: 3.4em !important;
+  width: 6.5em !important;
+  margin-left: 0 !important; /* Removes extra space on the left */
+  padding-left: 0 !important; /* Removes padding on the left */
+  position: relative; /* Optional: Fine-tune its position */
+   left: -150px; /* Moves it more to the left */
 }
 
 .navbar-nav .nav-link {
