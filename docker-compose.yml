@@ -1,36 +1,44 @@
+version: "3.8"
 services:
   backend:
     build:
       context: ./backend
     ports:
-      - "5001:5000"
-    volumes:
-      - ./backend:/usr/src/app
+      - "5000:5000"
+    command: ["npx", "nodemon", "src/server.js"]  # Run your app using nodemon
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=sentimentanalysis
+      DB_USER: postgres
+      DB_PASSWORD: 1234
+      DB_NAME: sentimentanalysis
+      DB_HOST: db
+      DB_PORT: 5432
     depends_on:
       - db
+    networks:
+      - sentiment_analysis
 
   frontend:
     build:
       context: ./frontend
     ports:
-      - "8080:80"
-    volumes:
-      - ./frontend:/usr/src/app
+      - "3000:80"
+    networks:
+      - sentiment_analysis
 
   db:
     image: postgres:13
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: sentimentanalysis
-    ports:
-      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sentiment_analysis
 
 volumes:
   postgres_data:
+networks:
+  sentiment_analysis:
+    driver: bridge
