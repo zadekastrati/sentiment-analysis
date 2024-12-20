@@ -7,3 +7,4 @@ const sequelize = new Sequelize("sentimentanalysis", "postgres", "1234", {
 
 module.exports = sequelize;
 
+
