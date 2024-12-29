@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("roles", {
+    await queryInterface.createTable("contact_us", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -10,24 +10,25 @@ module.exports = {
         allowNull: false,
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: false,
-        unique: true,
       },
-      createdAt: {
-        type: Sequelize.DATE,
+      email: {
+        type: Sequelize.STRING(255),
         allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
-      updatedAt: {
-        type: Sequelize.DATE,
+      message: {
+        type: Sequelize.TEXT,
         allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("roles");
+    await queryInterface.dropTable("contact_us");
   },
 };
