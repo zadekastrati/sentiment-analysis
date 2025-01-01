@@ -1,23 +1,21 @@
-# Use an official Node.js runtime as a parent image
-FROM node:18
+# Use the official Node.js image
+FROM node:20
 
-# Set the working directory in the container
-WORKDIR /app
+# Set the working directory inside the container
+WORKDIR /app/backend
 
-# Copy package.json and package-lock.json for npm install
+# Copy package.json and package-lock.json to the container
 COPY package.json package-lock.json ./
 
-# Install dependencies
+# Install backend dependencies
 RUN npm install
+RUN npm install -g nodemon  # Install nodemon globally for hot reloading
 
-# Copy the rest of the application code
+# Copy the rest of the backend code
 COPY . .
 
-# Install nodemon globally for development
-RUN npm install -g nodemon
+# Expose the backend port
+EXPOSE 5000
 
-# Expose the application port
-EXPOSE 3000
-
-# Command to run the app using nodemon
-CMD ["npx", "nodemon", "server.js"]
+# Command to run the app with nodemon
+CMD ["npx", "nodemon", "src/server.js"]

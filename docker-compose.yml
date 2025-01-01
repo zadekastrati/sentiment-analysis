@@ -1,11 +1,14 @@
 version: "3.8"
 services:
   backend:
+    restart: always
     build:
       context: ./backend
     ports:
       - "5000:5000"
-    command: ["npx", "nodemon", "src/server.js"]  # Run your app using nodemon
+    volumes:
+      - ./backend:/app/backend  # Sync backend directory with the container
+      - /app/backend/node_modules  # Prevent overwriting node_modules in the container
     environment:
       DB_USER: postgres
       DB_PASSWORD: 1234
@@ -18,10 +21,14 @@ services:
       - sentiment_analysis
 
   frontend:
+    restart: always
     build:
       context: ./frontend
     ports:
-      - "3000:80"
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app/frontend  # Sync frontend directory with the container
+      - /app/frontend/node_modules  # Prevent overwriting node_modules in the container
     networks:
       - sentiment_analysis
 
@@ -39,6 +46,7 @@ services:
 
 volumes:
   postgres_data:
+
 networks:
   sentiment_analysis:
     driver: bridge

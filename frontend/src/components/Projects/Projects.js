@@ -1,90 +1,195 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import ProjectCard from "./ProjectCards";
 import Particle from "../Particle";
-import kindness from "../../Assets/Projects/kindness.jpg";
-import slept from "../../Assets/Projects/slept.png";
-import cat from "../../Assets/Projects/cat.jpg";
-import dog from "../../Assets/Projects/dog.jpg";
-import rain from "../../Assets/Projects/rain.jpg";
-import coffe from "../../Assets/Projects/coffe.png";
 
 function Projects() {
+  const [posts, setPosts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [newPost, setNewPost] = useState({
+    title: "",
+    description: "",
+    author: "",
+    imgPath: "",
+  });
+  const [editPost, setEditPost] = useState();
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
+  const handleInputChange = (e) => {
+    const { name, value, files } = e.target;
+    setNewPost((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const fetchPosts = () => {
+    fetch("http://localhost:5000/api/posts")
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts(data);
+      })
+      .catch((err) => console.error("Error fetching posts:", err));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", newPost.title);
+    formData.append("description", newPost.description);
+    formData.append("author", newPost.author);
+    formData.append("imgPath", newPost.imgPath);
+
+    const url = editPost
+      ? `http://localhost:5000/api/posts/${editPost.id}`
+      : "http://localhost:5000/api/posts";
+    const method = editPost ? "PUT" : "POST";
+    fetch(url, {
+      method: method,
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((updatedPost) => {
+
+        if (editPost) {
+          // Update the posts state with the updated post
+          setPosts((prevPosts) => {
+            const updatedPosts = prevPosts.map((post) =>
+              post.id === updatedPost.id ? updatedPost : post
+            );
+            return updatedPosts;
+          });
+        } else {
+          fetchPosts(); // Fetch all posts if it's a new post
+        }
+
+        handleClose(); // Close the modal
+        setNewPost({ title: "", description: "", author: "", imgPath: "" });
+        setEditPost(null); // Reset the edit state
+      })
+      .catch((err) => console.error("Error submitting post:", err));
+  };
+
+  const handleEdit = (post) => {
+    setEditPost(post);
+    setNewPost({
+      title: post.title,
+      description: post.description,
+      author: post.author,
+      imgPath: post.imgPath,
+    });
+    setShowModal(true); // Trigger modal to edit the post
+  };
+
+  const handleDelete = (postId) => {
+    fetch(`http://localhost:5000/api/posts/${postId}`, { method: "DELETE" })
+      .then(() => fetchPosts())
+      .catch((err) => console.error("Error deleting post:", err));
+  };
+
   return (
     <Container fluid className="project-section">
       <Particle />
       <Container>
         <h1 className="project-heading">
-          Recent <strong className="purple">Posts </strong>
+          Recent <strong className="purple">Posts</strong>
         </h1>
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={dog}
-              isBlog={false}
-              title="The Joy of Midnight Walks"
-              description="Last night, my dog and I went for an impromptu midnight stroll under the stars. The world felt still, and for a moment, it was just us—no noise, no rush, just quiet companionship."
-              ghLink="https://github.com/soumyajit4419/Chatify"
-              demoLink="https://chatify-49.web.app/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={coffe}
-              isBlog={false}
-              title="A Coffee and a Chat"
-              description="Spent the afternoon catching up with an old friend over coffee. It’s funny how time flies, but good conversations always feel like coming home. ☕💬"
-              ghLink="https://github.com/soumyajit4419/Bits-0f-C0de"
-              demoLink="https://blogs.soumya-jit.tech/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={cat}
-              isBlog={false}
-              title="When Cats Steal the Spotlight"
-              description="Tried working from home today, but my cat had other plans. From sitting on my keyboard to photobombing my Zoom call, he clearly thinks he’s the CEO. 🐱💻"
-              ghLink="https://github.com/soumyajit4419/Editor.io"
-              demoLink="https://editor.soumya-jit.tech/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={kindness}
-              isBlog={false}
-              title="Little Acts of Kindness"
-              description="A stranger held the door open for me today, and it genuinely made my day. It’s a small reminder that kindness still exists in the world and you can make someone's day too."
-              ghLink="https://github.com/soumyajit4419/Plant_AI"
-              demoLink="https://plant49-ai.herokuapp.com/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={rain}
-              isBlog={false}
-              title="Rainy Day Comforts"
-              description="The rain poured outside, but inside it was all cozy vibes: a warm blanket, hot cocoa, and my dog curled up at my feet. Some days are made for staying in. "
-              ghLink="https://github.com/soumyajit4419/AI_For_Social_Good"
-              demoLink="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={slept}
-              isBlog={false}
-              title="The Art of Doing Nothing"
-              description="Spent the day lounging with a book I didn’t finish, music I half-listened to, and a cat who napped the whole time. Sometimes, doing nothing is everything."
-              ghLink="https://github.com/soumyajit4419/Face_And_Emotion_Detection"
-              demoLink="https://blogs.soumya-jit.tech/"
-            />
+          {posts.map((post) => (
+            <Col md={4} key={post.id}>
+              <ProjectCard
+                id={post.id}
+                imgPath={post.imgPath}
+                title={post.title}
+                description={post.description}
+                author={post.author}
+                ghLink="#"
+                demoLink="#"
+                onEdit={() => handleEdit(post)}
+                onDelete={() => handleDelete(post.id)}
+              />
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
+          <Col md={4}>
+            <Button
+              variant="primary"
+              style={{
+                marginBottom: "20px",
+                zIndex: "9998",
+                position: "relative",
+              }}
+              onClick={handleShow}
+            >
+              Create New Post
+            </Button>
           </Col>
         </Row>
       </Container>
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {editPost ? "Edit Post" : "Create New Post"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit} encType="multipart/form-data">
+            <Form.Group controlId="postTitle">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={newPost.title}
+                onChange={handleInputChange}
+                placeholder="Enter post title"
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="postDescription" className="mt-3">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="description"
+                value={newPost.description}
+                onChange={handleInputChange}
+                placeholder="Enter post description"
+                rows={3}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="postAuthor" className="mt-3">
+              <Form.Label>Author</Form.Label>
+              <Form.Control
+                type="text"
+                name="author"
+                value={newPost.author}
+                onChange={handleInputChange}
+                placeholder="Enter author name"
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="postImage" className="mt-3">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type="file"
+                name="imgPath"
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="mt-4">
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }

@@ -1,38 +1,91 @@
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import { BiComment  } from "react-icons/bi";
-import { AiOutlineHeart  } from "react-icons/ai";
+import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import {
+  AiOutlineLike,
+  AiOutlineComment,
+  AiOutlineDislike,
+  AiOutlineEdit,
+  AiOutlineDelete,
+} from "react-icons/ai";
 
-function ProjectCards(props) {
+function ProjectCard({
+  imgPath,
+  title,
+  description,
+  author,
+  id,
+  ghLink,
+  demoLink,
+  onEdit,
+  onDelete,
+}) {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/post/${id}`);
+  };
+
   return (
-    <Card className="project-card-view">
-      <Card.Img variant="top" src={props.imgPath} alt="card-img" />
-      <Card.Body>
-        <Card.Title>{props.title}</Card.Title>
-        <Card.Text style={{ textAlign: "justify" }}>
-          {props.description}
-        </Card.Text>
-        <Button variant="primary" href={props.ghLink} target="_blank">
-          <AiOutlineHeart style={{ fontSize: "1.5em", color: "#000", cursor: "pointer" }}  /> &nbsp;
-        </Button>
-        {"\n"}
-        {"\n"}
-
-        {/* If the component contains Demo link and if it's not a Blog then, it will render the below component  */}
-
-        {!props.isBlog && props.demoLink && (
-          <Button
-            variant="primary"
-            href={props.demoLink}
-            target="_blank"
-            style={{ marginLeft: "10px" }}
-          >
-            <BiComment style={{ fontSize: "1.5em", color: "#000", cursor: "pointer" }}  /> &nbsp;
-          </Button>
-        )}
-      </Card.Body>
-    </Card>
+    <div>
+      <Card
+        className="project-card-view"
+        onClick={handleCardClick}
+        style={{ cursor: "pointer" }}
+      >
+        <Card.Img
+          variant="top"
+          src={`http://localhost:5000/${imgPath}`}
+          alt={`${title} image`}
+        />
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+          <Card.Text>{description}</Card.Text>
+          <Card.Text>
+            <strong>Author:</strong> {author}
+          </Card.Text>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Button
+              variant="primary"
+              href={ghLink}
+              target="_blank"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <AiOutlineLike style={{ fontSize: "1.5em", color: "#000" }} />
+            </Button>
+            <Button variant="primary" onClick={(e) => e.stopPropagation()}>
+              <AiOutlineDislike style={{ fontSize: "1.5em", color: "#000" }} />
+            </Button>
+            <Button
+              variant="primary"
+              href={demoLink}
+              target="_blank"
+            >
+              <AiOutlineComment style={{ fontSize: "1.5em", color: "#000" }} />
+            </Button>
+            <Button
+              variant="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(); 
+              }}
+            >
+              <AiOutlineEdit style={{ fontSize: "1.5em", color: "#000" }} />
+            </Button>
+            <Button
+              variant="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+            >
+              <AiOutlineDelete style={{ fontSize: "1.5em", color: "#000" }} />
+            </Button>
+          </div>
+        </Card.Body>
+      </Card>
+    </div>
   );
 }
-export default ProjectCards;
+
+export default ProjectCard;

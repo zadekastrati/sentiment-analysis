@@ -10,6 +10,7 @@ import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
   AiOutlineUser,
+  AiOutlineDashboard,
 } from "react-icons/ai";
 
 function NavBar() {
@@ -61,20 +62,29 @@ function NavBar() {
                 to="/about"
                 onClick={() => updateExpanded(false)}
               >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About us
+                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link
                 as={Link}
-                to="/project"
+                to="/posts"
                 onClick={() => updateExpanded(false)}
               >
                 <AiOutlineFundProjectionScreen
                   style={{ marginBottom: "2px" }}
                 />{" "}
                 Services
+              </Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/dashboard"
+                onClick={() => updateExpanded(false)}
+              >
+                <AiOutlineDashboard style={{ marginBottom: "2px" }} /> Dashboard
               </Nav.Link>
             </Nav.Item>
 
