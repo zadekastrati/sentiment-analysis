@@ -747,3 +747,54 @@ button:focus {
 .fork-btn-inner::after {
   display: none !important;
 }
+
+.sidenav-container {
+  position: relative;
+}
+
+.sidenav {
+  position: fixed;
+  top: 200px;
+  left: -250px;
+  height: 100%;
+  width: 250px;
+  background-color: none;
+  color: white;
+  transition: left 0.3s ease-in-out;
+  overflow: hidden;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.sidenav-container.open .sidenav {
+  left: 0;
+}
+
+.sidenav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidenav ul li {
+  margin: 20px 0;
+}
+
+.sidenav ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.sidenav ul li a:hover {
+  color:#a588c0;
+}
+
+.toggle-icon {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  cursor: pointer;
+  z-index: 1100;
+}

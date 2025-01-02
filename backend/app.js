@@ -4,6 +4,7 @@ const roleRoutes = require("./routes/roleRoutes");
 const postsRoutes = require("./routes/postsRoutes");
 const notificationRoutes = require("./routes/notification-route-file");
 const contactUsRoutes = require("./routes/contact-us-route-file");
+const interactionRoutes = require('./routes/interactionRoutes'); 
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.use('/api/roles', roleRoutes);
 app.use('/api/posts', postsRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/contact-us", contactUsRoutes);
+app.use('/api/interactions', interactionRoutes);
 
 module.exports = app;

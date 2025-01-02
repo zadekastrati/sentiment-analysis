@@ -33,6 +33,38 @@ function ProjectCard({
         onClick={handleCardClick}
         style={{ cursor: "pointer" }}
       >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: "10px",
+            top: "10px",
+          }}
+        >
+          <AiOutlineEdit
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit();
+            }}
+            style={{
+              fontSize: "1.5em",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          />
+          <AiOutlineDelete
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            style={{
+              fontSize: "1.5em",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          />
+        </div>
         <Card.Img
           variant="top"
           src={`http://localhost:5000/${imgPath}`}
@@ -56,30 +88,8 @@ function ProjectCard({
             <Button variant="primary" onClick={(e) => e.stopPropagation()}>
               <AiOutlineDislike style={{ fontSize: "1.5em", color: "#000" }} />
             </Button>
-            <Button
-              variant="primary"
-              href={demoLink}
-              target="_blank"
-            >
+            <Button variant="primary" href={demoLink} target="_blank">
               <AiOutlineComment style={{ fontSize: "1.5em", color: "#000" }} />
-            </Button>
-            <Button
-              variant="primary"
-              onClick={(e) => {
-                e.stopPropagation();
-                onEdit(); 
-              }}
-            >
-              <AiOutlineEdit style={{ fontSize: "1.5em", color: "#000" }} />
-            </Button>
-            <Button
-              variant="primary"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete();
-              }}
-            >
-              <AiOutlineDelete style={{ fontSize: "1.5em", color: "#000" }} />
             </Button>
           </div>
         </Card.Body>
