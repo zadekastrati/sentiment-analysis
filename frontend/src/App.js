@@ -7,6 +7,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Posts from "./components/Projects/Projects";
 import Footer from "./components/Footer";
 import PostDetails from "./components/Projects/PostDetails";
+import Roles from "./components/Dashboard/Roles";
+import Post from "./components/Dashboard/Posts";
 import {
   BrowserRouter as Router,
   Route,
@@ -42,6 +44,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/dashboard/roles" element={<Roles />} />
+          <Route path="/dashboard/posts" element={<Post />} />
         </Routes>
         <Footer />
       </div>
