@@ -5,7 +5,7 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Posts from "./components/Projects/Projects";
-import Footer from "./components/Footer";
+import footer from "./components/footer";
 import PostDetails from "./components/Projects/PostDetails";
 import {
   BrowserRouter as Router,
@@ -43,7 +43,7 @@ function App() {
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <Footer />
+        <footer />
       </div>
     </Router>
   );
