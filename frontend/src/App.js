@@ -5,6 +5,8 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Projects from "./components/Projects/Projects";
 import Footer from "./components/footer";
+import Register from "./components/Register"; // Import the Register component
+import Login from "./components/Login"; // Import the Login component
 import {
   BrowserRouter as Router,
   Route,
@@ -17,11 +19,11 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [load, upadateLoad] = useState(true);
+  const [load, updateLoad] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      upadateLoad(false);
+      updateLoad(false);
     }, 1200);
 
     return () => clearTimeout(timer);
@@ -37,7 +39,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/project" element={<Projects />} />
           <Route path="/about" element={<About />} />
-          <Route path="*" element={<Navigate to="/"/>} />
+          <Route path="/register" element={<Register />} />  {/* Register Page */}
+          <Route path="/login" element={<Login />} />  {/* Login Page */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />
       </div>

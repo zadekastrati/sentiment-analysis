@@ -1,5 +1,5 @@
 # Frontend Dockerfile
-FROM node:18 as build
+FROM node:18 AS build
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -8,7 +8,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
+
 
 # Copy source code and build the app
 COPY . .

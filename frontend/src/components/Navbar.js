@@ -5,12 +5,7 @@ import Container from "react-bootstrap/Container";
 import logo from "../Assets/logo.png";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import {
-  AiOutlineLogin,
-  AiOutlineHome,
-  AiOutlineFundProjectionScreen,
-  AiOutlineUser,
-} from "react-icons/ai";
+import { AiOutlineLogin, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 
 function NavBar() {
   const [expand, updateExpanded] = useState(false);
@@ -56,37 +51,19 @@ function NavBar() {
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/about"
-                onClick={() => updateExpanded(false)}
-              >
+              <Nav.Link as={Link} to="/about" onClick={() => updateExpanded(false)}>
                 <AiOutlineUser style={{ marginBottom: "2px" }} /> About us
-              </Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/project"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineFundProjectionScreen
-                  style={{ marginBottom: "2px" }}
-                />{" "}
-                Services
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item className="login-btn">
               <Button
-                href="/login"
+                as={Link}
+                to="/register"
                 className="login-btn-inner"
-                style={{
-                  marginTop: "8px",
-                }}
+                style={{ marginTop: "8px" }}
               >
-                <AiOutlineLogin style={{ marginBottom: "2px" }} /> Login
+                <AiOutlineLogin style={{ marginBottom: "2px" }} /> Register
               </Button>
             </Nav.Item>
           </Nav>
