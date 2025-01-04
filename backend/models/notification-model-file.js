@@ -1,54 +1,44 @@
 "use strict";
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("notifications", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-      },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      message: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "users", // referencë për tabelën e përdoruesve
-          key: "id",
-        },
-        onDelete: "CASCADE", // fshirja e njoftimeve kur fshihet përdoruesi
-      },
-      type: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      read: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false, // për të treguar nëse njoftimi është lexuar
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-      },
-    });
-  },
+const { Model, DataTypes } = require("sequelize");
+const db = require("../config/db");
 
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("notifications");
+class Notification extends Model {}
+
+Notification.init(
+  {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    message: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users", // Reference to the Users table
+        key: "id",
+      },
+      onDelete: "CASCADE", // Deletes notifications when the user is deleted
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    read: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false, // Indicates if the notification has been read
+    },
   },
-};
+  {
+    sequelize: db,
+    modelName: "Notification",
+    timestamps: true, // Automatically handles createdAt and updatedAt
+  }
+);
+
+module.exports = Notification;
