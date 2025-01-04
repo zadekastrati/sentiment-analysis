@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "users", // referencë për tabelën e përdoruesve
+          model: "Users", // referencë për tabelën e përdoruesve
           key: "id",
         },
         onDelete: "CASCADE", // fshirja e njoftimeve kur fshihet përdoruesi
