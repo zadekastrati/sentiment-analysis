@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   backend:
     restart: always
@@ -13,12 +12,13 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 1234
       DB_NAME: sentimentanalysis
-      DB_HOST: db
+      DB_HOST: db 
       DB_PORT: 5432
+      JWT_SECRET: 22edf3d4a66af7bd557807602467e21026c7bbbdd630264477691c350e54d048ffc653b53873c8f06a9f492e3e9f15ed8ea22cd369104f9843aec75a87320d11
     depends_on:
       - db
     networks:
-      - sentiment_analysis
+      - sentiment-analysis_sentiment_analysis
 
   frontend:
     restart: always
@@ -30,7 +30,7 @@ services:
       - ./frontend:/app/frontend  # Sync frontend directory with the container
       - /app/frontend/node_modules  # Prevent overwriting node_modules in the container
     networks:
-      - sentiment_analysis
+      - sentiment-analysis_sentiment_analysis
 
   db:
     image: postgres:13
@@ -42,11 +42,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - sentiment_analysis
+      - sentiment-analysis_sentiment_analysis
 
 volumes:
   postgres_data:
 
 networks:
-  sentiment_analysis:
+  sentiment-analysis_sentiment_analysis:
     driver: bridge

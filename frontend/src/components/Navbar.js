@@ -57,12 +57,8 @@ function NavBar() {
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/about"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
+              <Nav.Link as={Link} to="/about" onClick={() => updateExpanded(false)}>
+                <AiOutlineUser style={{ marginBottom: "2px" }} /> About us
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -90,13 +86,12 @@ function NavBar() {
 
             <Nav.Item className="login-btn">
               <Button
-                href="/login"
+                as={Link}
+                to="/register"
                 className="login-btn-inner"
-                style={{
-                  marginTop: "8px",
-                }}
+                style={{ marginTop: "8px" }}
               >
-                <AiOutlineLogin style={{ marginBottom: "2px" }} /> Login
+                <AiOutlineLogin style={{ marginBottom: "2px" }} /> Register
               </Button>
             </Nav.Item>
           </Nav>

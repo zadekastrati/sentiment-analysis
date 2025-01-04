@@ -6,6 +6,8 @@ import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Posts from "./components/Projects/Projects";
 import footer from "./components/footer";
+import Register from "./components/Register"; // Import the Register component
+import Login from "./components/Login"; // Import the Login component
 import PostDetails from "./components/Projects/PostDetails";
 import Roles from "./components/Dashboard/Roles";
 import Post from "./components/Dashboard/Posts";
@@ -21,11 +23,11 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [load, upadateLoad] = useState(true);
+  const [load, updateLoad] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      upadateLoad(false);
+      updateLoad(false);
     }, 1200);
 
     return () => clearTimeout(timer);
@@ -41,9 +43,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/about" element={<About />} />
+          <Route path="/register" element={<Register />} />  {/* Register Page */}
+          <Route path="/login" element={<Login />} />  {/* Login Page */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post/:id" element={<PostDetails />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/"  />} />
           <Route path="/dashboard/roles" element={<Roles />} />
           <Route path="/dashboard/posts" element={<Post />} />
         </Routes>
