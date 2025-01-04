@@ -3,5 +3,10 @@
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "sequelize-cli": "^6.6.2",
+    "webpack-dev-server": "^5.2.0"
   }
 }

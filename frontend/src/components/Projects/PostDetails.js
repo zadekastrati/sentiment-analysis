@@ -1,96 +1,77 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
 import ProjectCard from "./ProjectCards";
 import Particle from "../Particle";
+import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 
-function Projects() {
-  const [posts, setPosts] = useState([]);
+function PostDetails() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [post, setPost] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [newPost, setNewPost] = useState({
+  const [editPost, setEditPost] = useState({
     title: "",
     description: "",
     author: "",
     imgPath: "",
   });
-  const [editPost, setEditPost] = useState();
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPostById();
+  }, [id]);
 
+  // Fetch the specific post by ID
+  const fetchPostById = () => {
+    fetch(`http://localhost:5000/api/posts/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setPost(data);
+        setEditPost(data); // Prepare the edit state
+      })
+      .catch((err) => console.error("Error fetching post details:", err));
+  };
+
+  // Handle closing the modal
   const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
 
+  // Handle input changes in the edit form
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-    setNewPost((prev) => ({
+    setEditPost((prev) => ({
       ...prev,
       [name]: files ? files[0] : value,
     }));
   };
 
-  const fetchPosts = () => {
-    fetch("http://localhost:5000/api/posts")
-      .then((res) => res.json())
-      .then((data) => {
-        setPosts(data);
-      })
-      .catch((err) => console.error("Error fetching posts:", err));
-  };
-
+  // Handle the submission of the edit form
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("title", newPost.title);
-    formData.append("description", newPost.description);
-    formData.append("author", newPost.author);
-    formData.append("imgPath", newPost.imgPath);
+    formData.append("title", editPost.title);
+    formData.append("description", editPost.description);
+    formData.append("author", editPost.author);
+    if (editPost.imgPath instanceof File) {
+      formData.append("imgPath", editPost.imgPath);
+    }
 
-    const url = editPost
-      ? `http://localhost:5000/api/posts/${editPost.id}`
-      : "http://localhost:5000/api/posts";
-    const method = editPost ? "PUT" : "POST";
-    fetch(url, {
-      method: method,
+    fetch(`http://localhost:5000/api/posts/${editPost.id}`, {
+      method: "PUT",
       body: formData,
     })
       .then((res) => res.json())
       .then((updatedPost) => {
-
-        if (editPost) {
-          // Update the posts state with the updated post
-          setPosts((prevPosts) => {
-            const updatedPosts = prevPosts.map((post) =>
-              post.id === updatedPost.id ? updatedPost : post
-            );
-            return updatedPosts;
-          });
-        } else {
-          fetchPosts(); // Fetch all posts if it's a new post
-        }
-
+        setPost(updatedPost); // Update the current post details
         handleClose(); // Close the modal
-        setNewPost({ title: "", description: "", author: "", imgPath: "" });
-        setEditPost(null); // Reset the edit state
       })
-      .catch((err) => console.error("Error submitting post:", err));
+      .catch((err) => console.error("Error updating post:", err));
   };
 
-  const handleEdit = (post) => {
-    setEditPost(post);
-    setNewPost({
-      title: post.title,
-      description: post.description,
-      author: post.author,
-      imgPath: post.imgPath,
-    });
-    setShowModal(true); // Trigger modal to edit the post
-  };
-
-  const handleDelete = (postId) => {
-    fetch(`http://localhost:5000/api/posts/${postId}`, { method: "DELETE" })
-      .then(() => fetchPosts())
+  const handleDelete = () => {
+    fetch(`http://localhost:5000/api/posts/${id}`, { method: "DELETE" })
+      .then(() => {
+        navigate("/posts");
+      })
       .catch((err) => console.error("Error deleting post:", err));
   };
 
@@ -99,11 +80,11 @@ function Projects() {
       <Particle />
       <Container>
         <h1 className="project-heading">
-          Recent <strong className="purple">Posts</strong>
+          Post <strong className="purple">Details</strong>
         </h1>
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          {posts.map((post) => (
-            <Col md={4} key={post.id}>
+          <Col md={6}>
+            {post ? (
               <ProjectCard
                 id={post.id}
                 imgPath={post.imgPath}
@@ -112,33 +93,21 @@ function Projects() {
                 author={post.author}
                 ghLink="#"
                 demoLink="#"
-                onEdit={() => handleEdit(post)}
-                onDelete={() => handleDelete(post.id)}
+                onEdit={() => setShowModal(true)}
+                onDelete={handleDelete}
               />
-            </Col>
-          ))}
-        </Row>
-        <Row style={{ justifyContent: "center", paddingBottom: "360px", paddingTop: "26px"}}>
-          <Col md={4}>
-            <Button
-              variant="primary"
-              style={{
-                marginBottom: "20px",
-                zIndex: "9998",
-                position: "relative",
-              }}
-              onClick={handleShow}
-            >
-              Create New Post
-            </Button>
+            ) : (
+              <p style={{ textAlign: "center", fontSize: "1.2em" }}>
+                Loading post details...
+              </p>
+            )}
           </Col>
         </Row>
       </Container>
+
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {editPost ? "Edit Post" : "Create New Post"}
-          </Modal.Title>
+          <Modal.Title>Edit Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -147,7 +116,7 @@ function Projects() {
               <Form.Control
                 type="text"
                 name="title"
-                value={newPost.title}
+                value={editPost.title}
                 onChange={handleInputChange}
                 placeholder="Enter post title"
                 required
@@ -158,7 +127,7 @@ function Projects() {
               <Form.Control
                 as="textarea"
                 name="description"
-                value={newPost.description}
+                value={editPost.description}
                 onChange={handleInputChange}
                 placeholder="Enter post description"
                 rows={3}
@@ -170,7 +139,7 @@ function Projects() {
               <Form.Control
                 type="text"
                 name="author"
-                value={newPost.author}
+                value={editPost.author}
                 onChange={handleInputChange}
                 placeholder="Enter author name"
                 required
@@ -185,7 +154,7 @@ function Projects() {
               />
             </Form.Group>
             <Button variant="primary" type="submit" className="mt-4">
-              Submit
+              Save Changes
             </Button>
           </Form>
         </Modal.Body>
@@ -194,4 +163,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default PostDetails;

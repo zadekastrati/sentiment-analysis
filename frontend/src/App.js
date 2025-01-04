@@ -3,15 +3,19 @@ import Preloader from "../src/components/Pre";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
-import Projects from "./components/Projects/Projects";
-import Footer from "./components/footer";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Posts from "./components/Projects/Projects";
+import footer from "./components/footer";
 import Register from "./components/Register"; // Import the Register component
 import Login from "./components/Login"; // Import the Login component
+import PostDetails from "./components/Projects/PostDetails";
+import Roles from "./components/Dashboard/Roles";
+import Post from "./components/Dashboard/Posts";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import "./style.css";
@@ -37,13 +41,17 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/project" element={<Projects />} />
+          <Route path="/posts" element={<Posts />} />
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />  {/* Register Page */}
           <Route path="/login" element={<Login />} />  {/* Login Page */}
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/post/:id" element={<PostDetails />} />
+          <Route path="*" element={<Navigate to="/"  />} />
+          <Route path="/dashboard/roles" element={<Roles />} />
+          <Route path="/dashboard/posts" element={<Post />} />
         </Routes>
-        <Footer />
+        <footer />
       </div>
     </Router>
   );

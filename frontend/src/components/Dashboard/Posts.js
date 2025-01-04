@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
-import ProjectCard from "./ProjectCards";
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Card,
+  Modal,
+  Form,
+} from "react-bootstrap";
 import Particle from "../Particle";
+import SideNav from "./SideNav";
+import ProjectCard from "../Projects/ProjectCards";
 
-function Projects() {
+function Posts() {
   const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newPost, setNewPost] = useState({
@@ -12,7 +21,7 @@ function Projects() {
     author: "",
     imgPath: "",
   });
-  const [editPost, setEditPost] = useState();
+  const [editPost, setEditPost] = useState(null);
 
   useEffect(() => {
     fetchPosts();
@@ -51,28 +60,26 @@ function Projects() {
       ? `http://localhost:5000/api/posts/${editPost.id}`
       : "http://localhost:5000/api/posts";
     const method = editPost ? "PUT" : "POST";
+
     fetch(url, {
       method: method,
       body: formData,
     })
       .then((res) => res.json())
       .then((updatedPost) => {
-
         if (editPost) {
-          // Update the posts state with the updated post
-          setPosts((prevPosts) => {
-            const updatedPosts = prevPosts.map((post) =>
+          setPosts((prevPosts) =>
+            prevPosts.map((post) =>
               post.id === updatedPost.id ? updatedPost : post
-            );
-            return updatedPosts;
-          });
+            )
+          );
         } else {
-          fetchPosts(); // Fetch all posts if it's a new post
+          fetchPosts();
         }
 
-        handleClose(); // Close the modal
+        handleClose();
         setNewPost({ title: "", description: "", author: "", imgPath: "" });
-        setEditPost(null); // Reset the edit state
+        setEditPost(null);
       })
       .catch((err) => console.error("Error submitting post:", err));
   };
@@ -85,7 +92,7 @@ function Projects() {
       author: post.author,
       imgPath: post.imgPath,
     });
-    setShowModal(true); // Trigger modal to edit the post
+    setShowModal(true);
   };
 
   const handleDelete = (postId) => {
@@ -97,9 +104,10 @@ function Projects() {
   return (
     <Container fluid className="project-section">
       <Particle />
+      <SideNav />
       <Container>
-        <h1 className="project-heading">
-          Recent <strong className="purple">Posts</strong>
+        <h1 className="project-heading" style={{ paddingBottom: "30px" }}>
+          Manage <strong className="purple">Posts</strong>
         </h1>
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
           {posts.map((post) => (
@@ -110,30 +118,25 @@ function Projects() {
                 title={post.title}
                 description={post.description}
                 author={post.author}
-                ghLink="#"
-                demoLink="#"
                 onEdit={() => handleEdit(post)}
                 onDelete={() => handleDelete(post.id)}
               />
             </Col>
           ))}
         </Row>
-        <Row style={{ justifyContent: "center", paddingBottom: "360px", paddingTop: "26px"}}>
+        <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
           <Col md={4}>
-            <Button
-              variant="primary"
-              style={{
-                marginBottom: "20px",
-                zIndex: "9998",
-                position: "relative",
-              }}
-              onClick={handleShow}
-            >
-              Create New Post
-            </Button>
+          <Card style={{ backgroundColor: "transparent", border: "none" }}>
+              <Card.Body style={{ textAlign: "center" }}>
+                <Button variant="primary" onClick={handleShow}>
+                  Create New Post
+                </Button>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Container>
+
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -194,4 +197,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default Posts;
