@@ -5,12 +5,15 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Posts from "./components/Projects/Projects";
-import footer from "./components/footer";
+import Footer from "./components/footer.js";
 import Register from "./components/Register"; // Import the Register component
 import Login from "./components/Login"; // Import the Login component
 import PostDetails from "./components/Projects/PostDetails";
 import Roles from "./components/Dashboard/Roles";
 import Post from "./components/Dashboard/Posts";
+import ProfilePage from "./components/Dashboard/ProfilePage";
+import PrivateRoute from "./components/PrivateRoute";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -45,13 +48,34 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />  {/* Register Page */}
           <Route path="/login" element={<Login />} />  {/* Login Page */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="*" element={<Navigate to="/"  />} />
           <Route path="/dashboard/roles" element={<Roles />} />
           <Route path="/dashboard/posts" element={<Post />} />
+          
+          {/* Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Redirect Unknown Routes */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <footer />
+        <Footer />
       </div>
     </Router>
   );

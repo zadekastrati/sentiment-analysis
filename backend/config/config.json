@@ -3,7 +3,7 @@
     "username": "postgres",
     "password": "1234",
     "database": "sentimentanalysis",
-    "host": "localhost",
+    "host": "db",
     "dialect": "postgres",
      "logging": "console.log" 
   },
@@ -11,14 +11,14 @@
     "username": "postgres",
     "password": "1234",
     "database": "sentimentanalysis",
-    "host": "localhost",
+    "host": "db",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
     "password": "1234",
     "database": "sentimentanalysis",
-    "host": "localhost",
+    "host": "db",
     "dialect": "postgres"
   }
 }

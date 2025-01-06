@@ -4,7 +4,10 @@ const { register, login, getUser } = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-router.post('/register', register);  // Register a new user
+router.post('/register', (req, res, next) => {
+    console.log("Register route hit");  // Add a log here
+    next();  // Continue to the actual handler
+  }, register);
 router.post('/login', login);        // Log in the user
 router.get('/user', authMiddleware, getUser);
 

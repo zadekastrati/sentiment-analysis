@@ -10,8 +10,19 @@ import { FaLinkedinIn } from "react-icons/fa";
 function Footer() {
   let date = new Date();
   let year = date.getFullYear();
+
+  const footerStyle = {
+    position: "absolute",
+    bottom: "0",
+    width: "100%",
+    padding: "20px",
+    backgroundColor: "#282c34",
+    color: "white",
+    textAlign: "center",
+  };
+
   return (
-    <Container fluid className="footer">
+    <Container fluid className="footer" style={footerStyle}>
       <Row>
         <Col md="4" className="footer-copywright">
           <h3>Designed and Developed by <br/> Zade Kastrati, Erza Koxha and Elza Ameti </h3>

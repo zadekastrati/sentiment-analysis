@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProjectCard from "./ProjectCards";
 import Particle from "../Particle";
@@ -16,12 +16,8 @@ function PostDetails() {
     imgPath: "",
   });
 
-  useEffect(() => {
-    fetchPostById();
-  }, [id]);
-
-  // Fetch the specific post by ID
-  const fetchPostById = () => {
+  // Wrap the function in useCallback to prevent unnecessary re-renders
+  const fetchPostById = useCallback(() => {
     fetch(`http://localhost:5000/api/posts/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -29,7 +25,11 @@ function PostDetails() {
         setEditPost(data); // Prepare the edit state
       })
       .catch((err) => console.error("Error fetching post details:", err));
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchPostById();
+  }, [fetchPostById]); // Now it depends on the stable callback
 
   // Handle closing the modal
   const handleClose = () => setShowModal(false);

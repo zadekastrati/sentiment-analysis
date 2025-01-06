@@ -19,7 +19,7 @@ const SideNav = () => {
       <div className={`sidenav ${isOpen ? "visible" : ""}`}>
         <ul>
           <li>
-            <Link to="/dashboard">Profile</Link>
+            <Link to="/profile">Profile</Link> {/* Updated to point to ProfilePage */}
           </li>
           <li>
             <Link to="/dashboard">Users</Link>

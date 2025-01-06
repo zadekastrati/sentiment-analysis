@@ -1,11 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-const cors = require('cors'); 
 const authRoutes = require("./routes/authRoutes");
 const postsRoutes = require("./routes/postsRoutes");
 const notificationRoutes = require("./routes/notification-route-file");
 const contactUsRoutes = require("./routes/contact-us-route-file");
 const interactionRoutes = require('./routes/interactionRoutes'); 
+
 const app = express();
 
 // Allow requests from multiple origins (localhost:3000 and localhost:3001)
@@ -24,21 +24,14 @@ app.use(cors({
   credentials: true,  // Include cookies if needed
 }));
 
-// Enable CORS
-app.use(
-  cors({
-    origin: "http://localhost:3000", // Frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  })
-);
+// Enable JSON parsing for incoming requests
+app.use(express.json());
 
-// Middleware to parse JSON
-app.use(express.json());  // To parse incoming JSON requests
-
+// Serve static files (e.g., uploads)
 app.use("/uploads", express.static("uploads"));
 
 // Routes
-app.use('/api/auth/roles', authRoutes);  // All routes under /api/auth will use authRoutes
+app.use('/api/auth', authRoutes);
 app.use('/api/posts', postsRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/contact-us", contactUsRoutes);

@@ -9,13 +9,13 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'Users', key: 'id' }, // Use 'Users' here
+        references: { model: 'Users', key: 'user_id' }, // Use 'Users' here
         onDelete: 'CASCADE',
       },
       post_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'Posts', key: 'id' },
+        references: { model: 'posts', key: 'id' },
         onDelete: 'CASCADE',
       },
       createdAt: {

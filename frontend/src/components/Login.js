@@ -31,7 +31,9 @@ const Login = ({ toggleForm }) => {
       );
 
       alert("Login successful!"); // Success message
-      localStorage.setItem("token", response.data.token); // Save token in localStorage
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user)); 
+
       navigate("/"); // Redirect to the home page
     } catch (err) {
       console.error("Login error:", err.response || err.message);
