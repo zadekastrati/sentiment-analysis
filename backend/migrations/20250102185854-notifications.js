@@ -1,27 +1,34 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Comments', {
+    await queryInterface.createTable("notifications", {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      user_id: {
-        type: Sequelize.INTEGER,
+      title: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: { model: 'Users', key: 'user_id' }, 
-        onDelete: 'CASCADE',
       },
-      post_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'Posts', key: 'id' },
-        onDelete: 'CASCADE',
-      },
-      comment: {
+      message: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "users", key: "user_id" },
+        onDelete: "CASCADE",
+      },
+      type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      read: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -33,6 +40,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Comments');
+    await queryInterface.dropTable("notifications");
   },
 };

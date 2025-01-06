@@ -5,6 +5,7 @@ import Particle from "../Particle";
 import SideNavbar from "./SideNav";
 import Posts from "./Posts";
 import Roles from "./Roles";
+import Notifications from "./Notifications";
 
 function Dashboard() {
   return (
@@ -16,6 +17,7 @@ function Dashboard() {
           <Route path="/dashboard" element={<h2>Dashboard Home</h2>} />
           <Route path="/dashboard/posts" element={<Posts />} />
           <Route path="/dashboard/roles" element={<Roles />} />
+          <Route path="/dashboard/notifications" element={<Notifications />} />
         </Routes>
       </div>
     </Container>

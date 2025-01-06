@@ -5,12 +5,13 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Posts from "./components/Projects/Projects";
-import footer from "./components/footer";
 import Register from "./components/Register"; // Import the Register component
 import Login from "./components/Login"; // Import the Login component
 import PostDetails from "./components/Projects/PostDetails";
 import Roles from "./components/Dashboard/Roles";
 import Post from "./components/Dashboard/Posts";
+import Notifications from "./components/Dashboard/Notifications";
+import ContactUs from "./components/Dashboard/ContactUs";
 import {
   BrowserRouter as Router,
   Route,
@@ -50,8 +51,9 @@ function App() {
           <Route path="*" element={<Navigate to="/"  />} />
           <Route path="/dashboard/roles" element={<Roles />} />
           <Route path="/dashboard/posts" element={<Post />} />
+          <Route path="/dashboard/notifications" element={<Notifications />} />
+          <Route path="/dashboard/contactus" element={<ContactUs />} />
         </Routes>
-        <footer />
       </div>
     </Router>
   );

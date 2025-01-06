@@ -1,23 +1,19 @@
 const express = require("express");
 const {
-  getMessages,
+  getAllMessages,
+  getMessageById, // Added this for consistency if needed
   createMessage,
   updateMessage,
   deleteMessage,
-} = require("../controllers/contact-us-controller-file"); // Importoni controllerat
+} = require("../controllers/contact-us-controller-file");
 
 const router = express.Router();
 
-// Route për të marrë të gjitha mesazhet
-router.get("/contact-us", getMessages);
-
-// Route për të krijuar një mesazh të ri
-router.post("/contact-us", createMessage);
-
-// Route për të përditësuar një mesazh ekzistues
-router.put("/contact-us/:id", updateMessage);
-
-// Route për të fshirë një mesazh
-router.delete("/contact-us/:id", deleteMessage);
+// Routes
+router.get("/", getAllMessages); // Fetch all contact messages
+router.get("/:id", getMessageById); // Fetch a specific contact message by ID (optional)
+router.post("/", createMessage); // Create a new contact message
+router.put("/:id", updateMessage); // Update an existing contact message
+router.delete("/:id", deleteMessage); // Delete a specific contact message
 
 module.exports = router;

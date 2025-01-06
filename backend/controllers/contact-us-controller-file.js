@@ -1,109 +1,96 @@
-const { ContactUs } = require("../models/contact-us-model-file"); // Sigurohuni që modeli është i importuar
+const ContactUs = require("../models/contact-us-model-file");
 
-// Get all messages (from the 'contact_us' table)
-const getMessages = async (req, res) => {
-  try {
-    // Fetch all messages from the database
-    const messages = await ContactUs.findAll();
-
-    // If no messages are found, return a 404
-    if (messages.length === 0) {
-      return res.status(404).json({ message: "No messages found" });
+const ContactUsController = {
+  // Get all Messages
+  async getAllMessages(req, res) {
+    try {
+      const messages = await ContactUs.findAll();
+      res.status(200).json(messages);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
+  },
 
-    // Return the messages
-    res.status(200).json(messages);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: err.message });
-  }
-};
+  // Get a single Message by ID
+  async getMessageById(req, res) {
+    const { id } = req.params;
+    try {
+      const message = await ContactUs.findByPk(id);
 
-// Create a new contact message
-const createMessage = async (req, res) => {
-  try {
+      if (!message) {
+        return res.status(404).json({ message: "Message not found" });
+      }
+
+      res.status(200).json(message);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  // Create a new Message
+  async createMessage(req, res) {
     const { name, email, message } = req.body;
 
-    // Check if all required fields are provided
-    if (!name || !email || !message) {
-      return res.status(400).json({ message: "All fields are required" });
+    try {
+      if (!name || !email || !message) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+
+      const newMessage = await ContactUs.create({
+        name,
+        email,
+        message,
+      });
+
+      res.status(201).json(newMessage);
+    } catch (error) {
+      console.error("Error creating message:", error);
+      res.status(500).json({ error: error.message });
     }
+  },
 
-    // Create the new message in the database
-    const newMessage = await ContactUs.create({
-      name,
-      email,
-      message,
-    });
-
-    res.status(201).json({
-      message: "Your message has been sent successfully",
-      data: newMessage,
-    });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Update an existing contact message
-const updateMessage = async (req, res) => {
-  try {
+  // Update an existing Message
+  async updateMessage(req, res) {
     const { id } = req.params;
     const { name, email, message } = req.body;
 
-    // Find the message by its ID
-    const messageToUpdate = await ContactUs.findByPk(id);
+    try {
+      const messageToUpdate = await ContactUs.findByPk(id);
 
-    // If no message is found, return a 404
-    if (!messageToUpdate) {
-      return res.status(404).json({ message: "Message not found" });
+      if (!messageToUpdate) {
+        return res.status(404).json({ message: "Message not found" });
+      }
+
+      // Update only provided fields
+      messageToUpdate.name = name || messageToUpdate.name;
+      messageToUpdate.email = email || messageToUpdate.email;
+      messageToUpdate.message = message || messageToUpdate.message;
+
+      await messageToUpdate.save();
+      res.status(200).json(messageToUpdate);
+    } catch (error) {
+      console.error("Error updating message:", error);
+      res.status(500).json({ error: error.message });
     }
+  },
 
-    // Update the message with the new data
-    messageToUpdate.name = name || messageToUpdate.name;
-    messageToUpdate.email = email || messageToUpdate.email;
-    messageToUpdate.message = message || messageToUpdate.message;
-
-    // Save the updated message
-    await messageToUpdate.save();
-
-    res.status(200).json({
-      message: "Message updated successfully",
-      data: messageToUpdate,
-    });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Delete a contact message
-const deleteMessage = async (req, res) => {
-  try {
+  // Delete a Message
+  async deleteMessage(req, res) {
     const { id } = req.params;
+    try {
+      const messageToDelete = await ContactUs.findByPk(id);
 
-    // Find the message by its ID
-    const messageToDelete = await ContactUs.findByPk(id);
+      if (!messageToDelete) {
+        return res.status(404).json({ message: "Message not found" });
+      }
 
-    // If no message is found, return a 404
-    if (!messageToDelete) {
-      return res.status(404).json({ message: "Message not found" });
+      await messageToDelete.destroy();
+      res.status(200).json({ message: "Message deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      res.status(500).json({ error: error.message });
     }
-
-    // Delete the message
-    await messageToDelete.destroy();
-
-    res.status(200).json({ message: "Message deleted successfully" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: err.message });
-  }
+  },
 };
 
-module.exports = {
-  getMessages,
-  createMessage,
-  updateMessage,
-  deleteMessage,
-};
+module.exports = ContactUsController;

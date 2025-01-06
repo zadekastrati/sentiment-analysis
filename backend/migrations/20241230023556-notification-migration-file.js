@@ -2,22 +2,12 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Notifications", {
+    await queryInterface.createTable("notifications", {
       id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false,
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Users", // referencë për tabelën e përdoruesve
-          key: "user_id",
-        },
-        onDelete: "CASCADE", // fshirja e njoftimeve kur fshihet përdoruesi
-        onUpdate: "CASCADE",
       },
       title: {
         type: Sequelize.STRING,
@@ -27,6 +17,15 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users", // Emri i tabelës është "users"
+          key: "user_id", // Ky është çelësi që lidh tabelën "notifications" me "users"
+        },
+        onDelete: "CASCADE", // Kur fshihet përdoruesi, fshihen dhe njoftimet e tij
+      },
       type: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -34,7 +33,7 @@ module.exports = {
       read: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: false, // për të treguar nëse njoftimi është lexuar
+        defaultValue: false, // Njoftimi nuk është lexuar nga e para
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -50,6 +49,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Notifications");
+    await queryInterface.dropTable("notifications");
   },
 };
