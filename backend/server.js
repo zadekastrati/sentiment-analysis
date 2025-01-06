@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 require("dotenv").config();
 console.log("JWT Secret:", process.env.JWT_SECRET);
 
@@ -37,3 +38,22 @@ sequelize
   .sync()
   .then(() => console.log("Database synced successfully"))
   .catch((err) => console.error("Error syncing database:", err));
+=======
+require('dotenv').config();
+console.log("JWT Secret:", process.env.JWT_SECRET); 
+const sequelize = require('./config/db');
+const app = require('./app');
+
+const PORT = process.env.PORT || 5000;
+
+sequelize.sync() 
+  .then(() => {
+    console.log('Database synced successfully');
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Error syncing database:", err);
+  });
+>>>>>>> 8c7ca18a8763856340358623c55a60caa04d1bc4

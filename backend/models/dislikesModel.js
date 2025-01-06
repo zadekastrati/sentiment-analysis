@@ -1,12 +1,26 @@
-module.exports = (sequelize, DataTypes) => {
-    const Dislike = sequelize.define('Dislikes', {
-      user_id: DataTypes.INTEGER,
-      post_id: DataTypes.INTEGER,
-    }, {});
-    Dislike.associate = function(models) {
-      Dislike.belongsTo(models.User, { foreignKey: 'user_id' });
-      Dislike.belongsTo(models.Post, { foreignKey: 'post_id' });
-    };
-    return Dislikes;
-  };
-  
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db'); 
+
+const Dislikes = sequelize.define('Dislikes', {
+  post_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Posts', 
+      key: 'id', 
+    },
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Users', 
+      key: 'user_id',
+    },
+  },
+}, {
+  tableName: 'Dislikes', 
+  timestamps: false, 
+});
+
+module.exports = Dislikes;

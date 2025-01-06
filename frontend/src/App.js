@@ -5,8 +5,14 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Posts from "./components/Projects/Projects";
+<<<<<<< HEAD
 import Register from "./components/Register"; // Import the Register component
 import Login from "./components/Login"; // Import the Login component
+=======
+import Footer from "./components/Footer";
+import Register from "./components/Register";
+import Login from "./components/Login";
+>>>>>>> 8c7ca18a8763856340358623c55a60caa04d1bc4
 import PostDetails from "./components/Projects/PostDetails";
 import Roles from "./components/Dashboard/Roles";
 import Post from "./components/Dashboard/Posts";
@@ -44,8 +50,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/about" element={<About />} />
-          <Route path="/register" element={<Register />} />  {/* Register Page */}
-          <Route path="/login" element={<Login />} />  {/* Login Page */}
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="*" element={<Navigate to="/"  />} />
@@ -54,6 +60,10 @@ function App() {
           <Route path="/dashboard/notifications" element={<Notifications />} />
           <Route path="/dashboard/contactus" element={<ContactUs />} />
         </Routes>
+<<<<<<< HEAD
+=======
+        <Footer/>
+>>>>>>> 8c7ca18a8763856340358623c55a60caa04d1bc4
       </div>
     </Router>
   );

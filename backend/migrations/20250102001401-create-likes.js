@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users', // Name of the table you are referencing
+          model: 'Users',
           key: 'user_id',
         },
         onUpdate: 'CASCADE',
@@ -19,16 +19,22 @@ module.exports = {
       post_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'Posts', key: 'id' },
+        references: {
+          model: 'posts',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },

@@ -9,13 +9,25 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+<<<<<<< HEAD
         references: { model: 'Users', key: 'user_id' }, 
+=======
+        references: {
+          model: 'Users', // Reference the Users table
+          key: 'user_id', // Primary key column in the Users table
+        },
+        onUpdate: 'CASCADE',
+>>>>>>> 8c7ca18a8763856340358623c55a60caa04d1bc4
         onDelete: 'CASCADE',
       },
-      post_id: {
+      post_id: { // Updated to 'post_id' for consistency
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'Posts', key: 'id' },
+        references: {
+          model: 'posts', // Reference the Posts table
+          key: 'id', // Primary key column in the Posts table
+        },
+        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       comment: {
@@ -25,10 +37,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },

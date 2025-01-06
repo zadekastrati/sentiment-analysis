@@ -59,7 +59,6 @@ function Projects() {
       .then((updatedPost) => {
 
         if (editPost) {
-          // Update the posts state with the updated post
           setPosts((prevPosts) => {
             const updatedPosts = prevPosts.map((post) =>
               post.id === updatedPost.id ? updatedPost : post
@@ -67,12 +66,12 @@ function Projects() {
             return updatedPosts;
           });
         } else {
-          fetchPosts(); // Fetch all posts if it's a new post
+          fetchPosts();
         }
 
-        handleClose(); // Close the modal
+        handleClose();
         setNewPost({ title: "", description: "", author: "", imgPath: "" });
-        setEditPost(null); // Reset the edit state
+        setEditPost(null);
       })
       .catch((err) => console.error("Error submitting post:", err));
   };
@@ -85,7 +84,8 @@ function Projects() {
       author: post.author,
       imgPath: post.imgPath,
     });
-    setShowModal(true); // Trigger modal to edit the post
+    fetchPosts();
+    setShowModal(true);
   };
 
   const handleDelete = (postId) => {

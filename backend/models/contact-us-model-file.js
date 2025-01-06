@@ -9,6 +9,7 @@ ContactUs.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+<<<<<<< HEAD
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -25,3 +26,13 @@ ContactUs.init(
 );
 
 module.exports = ContactUs;
+=======
+    {
+      tableName: "contact_us", 
+      timestamps: false,
+    }
+  );
+
+  return ContactUs;
+};
+>>>>>>> 8c7ca18a8763856340358623c55a60caa04d1bc4

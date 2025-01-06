@@ -22,7 +22,7 @@ sequelize.authenticate()
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err.message);
-    process.exit(1); // Exit the application if the connection fails
+    process.exit(1); 
   });
 
 fs
@@ -36,7 +36,6 @@ fs
     );
   })
   .forEach((file) => {
-    // Ensure the model is instantiated correctly
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });

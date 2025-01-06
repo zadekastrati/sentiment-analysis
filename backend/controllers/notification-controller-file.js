@@ -1,7 +1,6 @@
 const Notification = require("../models/notification-model-file");
 
 const NotificationsController = {
-  // Get all notifications
   async getAllNotifications(req, res) {
     try {
       const notifications = await Notification.findAll();
@@ -11,7 +10,6 @@ const NotificationsController = {
     }
   },
 
-  // Get a single notification by ID
   async getNotificationById(req, res) {
     const { id } = req.params;
     try {
@@ -27,18 +25,17 @@ const NotificationsController = {
     }
   },
 
-  // Create a new notification
   async createNotification(req, res) {
-    const { title, message, userId, type } = req.body;
+    const { title, message, users_id, type } = req.body;
     try {
-      if (!title || !message || !userId || !type) {
+      if (!title || !message || !users_id || !type) {
         return res.status(400).json({ message: "All fields are required" });
       }
 
       const newNotification = await Notification.create({
         title,
         message,
-        userId,
+        users_id,
         type,
       });
 
@@ -52,7 +49,6 @@ const NotificationsController = {
     }
   },
 
-  // Update an existing notification
   async updateNotification(req, res) {
     const { id } = req.params;
     const { title, message, type, read } = req.body;
@@ -77,7 +73,6 @@ const NotificationsController = {
     }
   },
 
-  // Delete a notification
   async deleteNotification(req, res) {
     const { id } = req.params;
     try {
