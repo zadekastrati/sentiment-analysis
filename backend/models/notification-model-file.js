@@ -1,5 +1,3 @@
-"use strict";
-
 const { Model, DataTypes } = require("sequelize");
 const db = require("../config/db");
 
@@ -15,14 +13,14 @@ Notification.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    userId: {
+    user_id: {  
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Users", // Reference to the Users table
-        key: "id",
+        model: "Users", 
+        key: "user_id", 
       },
-      onDelete: "CASCADE", // Deletes notifications when the user is deleted
+      onDelete: "CASCADE",
     },
     type: {
       type: DataTypes.STRING,
@@ -31,13 +29,13 @@ Notification.init(
     read: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false, // Indicates if the notification has been read
+      defaultValue: false, 
     },
   },
   {
     sequelize: db,
     modelName: "Notification",
-    timestamps: true, // Automatically handles createdAt and updatedAt
+    timestamps: true, 
   }
 );
 

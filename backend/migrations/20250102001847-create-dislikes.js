@@ -9,22 +9,32 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'Users', key: 'id' }, // Use 'Users' here
+        references: {
+          model: 'Users', // Table name
+          key: 'user_id', // Primary key column of the Users table
+        },
+        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       post_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'Posts', key: 'id' },
+        references: {
+          model: 'posts', // Table name
+          key: 'id', // Primary key column of the Posts table
+        },
+        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },

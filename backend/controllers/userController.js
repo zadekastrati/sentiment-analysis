@@ -1,6 +1,5 @@
 const { User } = require('../models');
 
-// Create a new user (e.g., registration logic)
 exports.createUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -12,7 +11,6 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// Get a user by ID
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
@@ -26,7 +24,6 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// Update user data
 exports.updateUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
@@ -42,7 +39,6 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-// Delete a user
 exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);

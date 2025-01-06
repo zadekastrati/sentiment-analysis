@@ -5,9 +5,9 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Posts from "./components/Projects/Projects";
-import footer from "./components/footer";
-import Register from "./components/Register"; // Import the Register component
-import Login from "./components/Login"; // Import the Login component
+import Footer from "./components/Footer";
+import Register from "./components/Register";
+import Login from "./components/Login";
 import PostDetails from "./components/Projects/PostDetails";
 import Roles from "./components/Dashboard/Roles";
 import Post from "./components/Dashboard/Posts";
@@ -43,15 +43,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/about" element={<About />} />
-          <Route path="/register" element={<Register />} />  {/* Register Page */}
-          <Route path="/login" element={<Login />} />  {/* Login Page */}
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="*" element={<Navigate to="/"  />} />
           <Route path="/dashboard/roles" element={<Roles />} />
           <Route path="/dashboard/posts" element={<Post />} />
         </Routes>
-        <footer />
+        <Footer/>
       </div>
     </Router>
   );

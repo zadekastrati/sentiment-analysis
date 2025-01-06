@@ -1,22 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Modal,
-  Form,
-  Dropdown,
-} from "react-bootstrap";
-import {
-  FaThumbsUp,
-  FaThumbsDown,
-  FaComment,
-  FaTrashAlt,
-  FaEdit,
-  FaEllipsisH,
-} from "react-icons/fa";
+import { Container, Row, Col, Button, Modal, Form, Dropdown } from "react-bootstrap";
+import { FaThumbsUp, FaThumbsDown, FaComment, FaTrashAlt, FaEdit, FaEllipsisH } from "react-icons/fa";
 
 function PostDetails() {
   const { id } = useParams();
@@ -30,11 +15,7 @@ function PostDetails() {
     imgPath: "",
   });
 
-  useEffect(() => {
-    fetchPostById();
-  }, [id]);
-
-  const fetchPostById = () => {
+  const fetchPostById = useCallback(() => {
     fetch(`http://localhost:5000/api/posts/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -42,7 +23,11 @@ function PostDetails() {
         setEditPost(data);
       })
       .catch((err) => console.error("Error fetching post details:", err));
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchPostById();
+  }, [fetchPostById]);
 
   const handleClose = () => setShowModal(false);
 
@@ -64,11 +49,16 @@ function PostDetails() {
       formData.append("imgPath", editPost.imgPath);
     }
 
-    fetch(`http://localhost:5000/api/posts/${editPost.id}`, {
+    fetch(`http://localhost:5000/api/posts/${id}`, {
       method: "PUT",
       body: formData,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((updatedPost) => {
         setPost(updatedPost);
         handleClose();
@@ -85,15 +75,7 @@ function PostDetails() {
   };
 
   return (
-    <Container
-      fluid
-      className="post-details-section"
-      style={{
-        backgroundColor: "#fff",
-        minHeight: "100vh",
-        paddingTop: "50px",
-      }}
-    >
+    <Container fluid className="post-details-section" style={{ backgroundColor: "#fff", minHeight: "100vh", paddingTop: "50px" }}>
       <Container className="py-5">
         <Row className="justify-content-center">
           <Col md={8}>
@@ -102,25 +84,14 @@ function PostDetails() {
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <h1 className="display-4">{post.title}</h1>
                   <Dropdown>
-                    <Dropdown.Toggle
-                      variant="link"
-                      id="dropdown-custom-components"
-                      style={{
-                        border: "none",
-                        background: "transparent",
-                        padding: 0,
-                      }}
-                    >
+                    <Dropdown.Toggle variant="link" id="dropdown-custom-components" style={{ border: "none", background: "transparent", padding: 0 }}>
                       <FaEllipsisH size={20} />
                     </Dropdown.Toggle>
                     <Dropdown.Menu align="end">
                       <Dropdown.Item onClick={() => setShowModal(true)}>
                         <FaEdit /> Edit
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={handleDelete}
-                        className="text-danger"
-                      >
+                      <Dropdown.Item onClick={handleDelete} className="text-danger">
                         <FaTrashAlt /> Delete
                       </Dropdown.Item>
                     </Dropdown.Menu>
@@ -131,11 +102,7 @@ function PostDetails() {
                   src={"http://localhost:5000/" + post.imgPath}
                   alt={post.title}
                   className="img-fluid rounded mb-4"
-                  style={{
-                    maxHeight: "500px",
-                    objectFit: "cover",
-                    width: "100%",
-                  }}
+                  style={{ maxHeight: "500px", objectFit: "cover", width: "100%" }}
                 />
                 <p className="lead">{post.description}</p>
                 <p className="text-muted">By {post.author}</p>
@@ -201,11 +168,7 @@ function PostDetails() {
             </Form.Group>
             <Form.Group controlId="postImage" className="mt-3">
               <Form.Label>Image</Form.Label>
-              <Form.Control
-                type="file"
-                name="imgPath"
-                onChange={handleInputChange}
-              />
+              <Form.Control type="file" name="imgPath" onChange={handleInputChange} />
             </Form.Group>
             <Button variant="primary" type="submit" className="mt-4">
               Save Changes

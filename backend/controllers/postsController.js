@@ -1,7 +1,6 @@
 const Post = require("../models/postsModel");
 
 const PostsController = {
-  // Get all Posts
   async getAllPosts(req, res) {
     try {
       const Posts = await Post.findAll();
@@ -11,36 +10,33 @@ const PostsController = {
     }
   },
 
-  // Get a single Post by ID
   async getPostById(req, res) {
     const { id } = req.params;
     try {
-      const post = await Post.findByPk(id); // Rename the variable to 'post'
+      const post = await Post.findByPk(id); 
 
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
 
-      res.status(200).json(post); // Return the post
+      res.status(200).json(post); 
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
 
-  // Create a new Post
   async createPost(req, res) {
     const { title, description, author } = req.body;
-    const imgPath = req.file ? req.file.path : null; // Use Multer to get the uploaded file path
+    const imgPath = req.file ? req.file.path : null; 
   
     try {
       const newPost = await Post.create({
         title,
         description,
         author,
-        imgPath, // Save the imgPath in the database
+        imgPath, 
       });
   
-      // Return the created post with the full image URL
       res.status(201).json({
         ...newPost.toJSON(),
         imgPath: imgPath ? `http://localhost:5000/${imgPath}` : null,
@@ -51,13 +47,11 @@ const PostsController = {
     }
   },
 
-  // Update an existing Post
   async updatePost(req, res) {
     const { id } = req.params;
     const { title, description, author } = req.body;
-    const imgPath = req.file ? req.file.path : null; // Handle new file upload if it exists
+    const imgPath = req.file ? req.file.path : null;
     console.log(req);
-    // Log the incoming data
     console.log("Update request for post:", id, title, description, imgPath, author);
   
     try {
@@ -66,12 +60,10 @@ const PostsController = {
         return res.status(404).json({ message: "Post not found" });
       }
   
-      // Update only provided fields
       post.title = title || post.title;
       post.description = description || post.description;
       post.author = author || post.author;
   
-      // If there's a new image, update the imgPath; otherwise, keep the current image
       post.imgPath = imgPath ? imgPath : post.imgPath;
   
       await post.save();
@@ -85,17 +77,16 @@ const PostsController = {
     }
   },  
 
-  // Delete a Post
   async deletePost(req, res) {
     const { id } = req.params;
     try {
-      const post = await Post.findByPk(id); // Rename the variable to 'post'
+      const post = await Post.findByPk(id); 
 
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
 
-      await post.destroy(); // Delete the post
+      await post.destroy();
       res.status(200).json({ message: "Post deleted successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });

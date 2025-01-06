@@ -4,10 +4,9 @@ const PostsController = require("../controllers/postsController");
 
 const router = express.Router();
 
-// Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Directory to store uploaded images
+    cb(null, "uploads/"); 
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -26,7 +25,6 @@ const upload = multer({
   },
 });
 
-// Routes
 router.get("/", PostsController.getAllPosts);
 router.get("/:id", PostsController.getPostById);
 router.post("/", upload.single("imgPath"), PostsController.createPost);

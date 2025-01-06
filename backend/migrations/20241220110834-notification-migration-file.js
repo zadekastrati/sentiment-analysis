@@ -17,12 +17,12 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      userId: {
+      users_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "Users", // referencë për tabelën e përdoruesve
-          key: "id",
+          key: "user_id",
         },
         onDelete: "CASCADE", // fshirja e njoftimeve kur fshihet përdoruesi
       },

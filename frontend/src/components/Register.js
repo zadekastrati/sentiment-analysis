@@ -10,7 +10,7 @@ const Register = ({ toggleForm }) => {
     password: "",
   });
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Handle navigation if needed
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,9 +20,8 @@ const Register = ({ toggleForm }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    console.log("Submitting data:", formData); // Log form data
+    console.log("Submitting data:", formData);
 
-    // Basic validation check
     if (!formData.username || !formData.email || !formData.password) {
       setError("Please fill in all fields.");
       return;
@@ -35,19 +34,18 @@ const Register = ({ toggleForm }) => {
         formData, 
         {
           headers: {
-            "Content-Type": "application/json",  // Specify JSON content type
+            "Content-Type": "application/json", 
           },
         }
       );
   
-      setError("");  // Clear error before showing success message
+      setError("");
       alert(response.data.message);
   
-      // If `toggleForm` is provided, use it; otherwise, navigate to the login page
       if (toggleForm) {
-        toggleForm(); // Switch to the login form
+        toggleForm();
       } else {
-        navigate("/login"); // Redirect to login page
+        navigate("/login");
       }
     } catch (err) {
       setError(err.response?.data?.error || err.message || "An error occurred.");

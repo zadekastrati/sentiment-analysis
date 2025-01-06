@@ -27,12 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "contact_us", // Specify the table name if it's different from the model name
-      timestamps: false, // Set to false if you are manually handling `created_at` and `updated_at` fields
+      tableName: "contact_us", 
+      timestamps: false,
     }
   );
-
-  // If needed, you can add associations here
 
   return ContactUs;
 };
