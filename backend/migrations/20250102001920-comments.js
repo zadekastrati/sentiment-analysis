@@ -12,7 +12,7 @@ module.exports = {
         references: { model: 'Users', key: 'user_id' }, 
         onDelete: 'CASCADE',
       },
-      post_id: {
+      post_id: { // Updated to 'post_id' for consistency
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: 'posts', key: 'id' },
@@ -25,10 +25,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },

@@ -1,58 +1,66 @@
-// controllers/interactionController.js
 const Likes = require('../models/likesModel');
 const Dislikes = require('../models/dislikesModel');
 const Comments = require('../models/commentsModel');
 
-// Like a post
 exports.likePost = async (req, res) => {
-  const { postId, userId } = req.body; // Get postId and userId from request body
+  const { postId, userId } = req.body;
   try {
-    // Check if the user has already liked the post
+    console.log('Request Body:', req.body);
+
     const existingLike = await Likes.findOne({
-      where: { postId, userId }
+      where: { post_id: postId, user_id: userId }
     });
 
     if (existingLike) {
-      return res.status(400).json({ message: 'Post already liked' });
+      await Likes.destroy({
+        where: { post_id: postId, user_id: userId }
+      });
+      return res.status(200).json({ message: 'Like removed' });
     }
 
-    // Create a new like
-    const newLike = await Likes.create({ postId, userId });
+    const newLike = await Likes.create({ post_id: postId, user_id: userId });
     res.status(201).json(newLike);
   } catch (error) {
-    res.status(500).json({ message: 'Error liking the post', error });
+    console.error('Error in likePost:', error); 
+    res.status(500).json({ message: 'Error liking the post', error: error.message });
   }
 };
 
-// Dislike a post
 exports.dislikePost = async (req, res) => {
-  const { postId, userId } = req.body; // Get postId and userId from request body
+  const { postId, userId } = req.body; 
   try {
-    // Check if the user has already disliked the post
     const existingDislike = await Dislikes.findOne({
-      where: { postId, userId }
+      where: { post_id: postId, user_id: userId }
     });
 
     if (existingDislike) {
-      return res.status(400).json({ message: 'Post already disliked' });
+      await Dislikes.destroy({
+        where: { post_id: postId, user_id: userId }
+      });
+      return res.status(200).json({ message: 'Dislike removed' });
     }
 
-    // Create a new dislike
-    const newDislike = await Dislikes.create({ postId, userId });
+    const newDislike = await Dislikes.create({ post_id: postId, user_id: userId });
     res.status(201).json(newDislike);
   } catch (error) {
+    console.error(error); 
     res.status(500).json({ message: 'Error disliking the post', error });
   }
 };
 
-// Add a comment to a post
 exports.commentOnPost = async (req, res) => {
-  const { postId, userId, commentText } = req.body; // Get postId, userId, and commentText from request body
+  const { postId, userId, commentText } = req.body; 
   try {
+    // Ensure commentText is provided
+    if (!commentText || commentText.trim() === '') {
+      return res.status(400).json({ message: 'Comment text is required' });
+    }
+
     // Create a new comment
-    const newComment = await Comments.create({ postId, userId, text: commentText });
+    const newComment = await Comments.create({ post_id: postId, user_id: userId, comment: commentText });
     res.status(201).json(newComment);
   } catch (error) {
-    res.status(500).json({ message: 'Error adding comment', error });
+    console.error('Error in commentOnPost:', error); // Log the full error object
+    res.status(500).json({ message: 'Error adding comment', error: error.message || error });
   }
 };

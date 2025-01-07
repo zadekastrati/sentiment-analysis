@@ -1,12 +1,39 @@
-module.exports = (sequelize, DataTypes) => {
-  const Comment = sequelize.define('Comments', {
-    user_id: DataTypes.INTEGER,
-    post_id: DataTypes.INTEGER,
-    comment: DataTypes.TEXT,
-  }, {});
-  Comment.associate = function(models) {
-    Comment.belongsTo(models.User, { foreignKey: 'user_id' });
-    Comment.belongsTo(models.Post, { foreignKey: 'post_id' });
-  };
-  return Comments;
-};
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+
+const Comments = sequelize.define(
+  'Comments',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    post_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Posts', 
+        key: 'id', 
+      },
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users', 
+        key: 'user_id',
+      },
+    },
+    comment: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: 'Comments',
+    timestamps: true, 
+  }
+);
+
+module.exports = Comments;

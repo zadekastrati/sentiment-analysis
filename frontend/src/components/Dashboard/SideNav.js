@@ -25,7 +25,7 @@ const SideNav = () => {
             <Link to="/dashboard">Users</Link>
           </li>
           <li>
-            <Link to="/dashboard">Notifications</Link>
+            <Link to="/dashboard/notifications">Notifications</Link>
           </li>
           <li>
             <Link to="/dashboard/roles">Roles</Link>
@@ -34,7 +34,7 @@ const SideNav = () => {
             <Link to="/dashboard/posts">Posts</Link>
           </li>
           <li>
-            <Link to="/dashboard">Feedback</Link>
+            <Link to="/dashboard/ContactUs">Feedback</Link>
           </li>
         </ul>
       </div>

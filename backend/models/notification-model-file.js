@@ -1,5 +1,7 @@
-"use strict";
+const { Model, DataTypes } = require("sequelize");
+const db = require("../config/db");
 
+<<<<<<< HEAD
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("notifications", {
@@ -47,8 +49,44 @@ module.exports = {
       },
     });
   },
+=======
+class Notification extends Model {}
+>>>>>>> 3df9ba2b52f3f04b7a8a1525a143ce9cd6fac075
 
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("notifications");
+Notification.init(
+  {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    message: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    user_id: {  
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users", 
+        key: "user_id", 
+      },
+      onDelete: "CASCADE",
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    read: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false, 
+    },
   },
-};
+  {
+    sequelize: db,
+    modelName: "Notification",
+    timestamps: true, 
+  }
+);
+
+module.exports = Notification;

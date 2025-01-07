@@ -1,4 +1,3 @@
-// src/components/FormToggle.js
 
 import React, { useState } from 'react';
 import Register from './Register';

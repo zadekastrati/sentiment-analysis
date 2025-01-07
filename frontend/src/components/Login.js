@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // For navigation after login
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ toggleForm }) => {
   const [formData, setFormData] = useState({
@@ -17,15 +17,15 @@ const Login = ({ toggleForm }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear any previous errors
+    setError("");
     try {
-      console.log("Submitting login data:", formData); // Debugging log
+      console.log("Submitting login data:", formData);
       const response = await axios.post(
         "http://localhost:5000/api/auth/login",
         formData,
         {
           headers: {
-            "Content-Type": "application/json", // Specify JSON content type
+            "Content-Type": "application/json",
           },
         }
       );
@@ -45,8 +45,8 @@ const Login = ({ toggleForm }) => {
     <div
       className="login-form"
       style={{
-        marginTop: "150px", // Add spacing to push the form lower
-        textAlign: "center", // Center align the form
+        marginTop: "150px",
+        textAlign: "center",
       }}
     >
       <h2>Login</h2>
@@ -61,7 +61,7 @@ const Login = ({ toggleForm }) => {
           required
           style={{
             display: "block",
-            margin: "10px auto", // Add spacing between inputs
+            margin: "10px auto",
             padding: "10px",
             width: "80%",
             maxWidth: "400px",

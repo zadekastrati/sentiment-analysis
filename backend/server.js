@@ -33,6 +33,7 @@ server.listen(PORT, '0.0.0.0', () => {
 });
 
 // Sync the models with the database
-sequelize.sync()
-  .then(() => console.log('Database synced successfully'))
-  .catch(err => console.error('Error syncing database:', err));
+sequelize
+  .sync()
+  .then(() => console.log("Database synced successfully"))
+  .catch((err) => console.error("Error syncing database:", err));

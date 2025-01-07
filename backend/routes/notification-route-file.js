@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getNotifications,
+  getAllNotifications,
   createNotification,
   updateNotification,
   deleteNotification,
@@ -8,16 +8,12 @@ const {
 
 const router = express.Router();
 
-// Route to fetch all notifications
-router.get("/notifications", getNotifications);
+router.get("/", getAllNotifications); 
 
-// Route to create a new notification
-router.post("/notifications", createNotification);
+router.post("/", createNotification);
 
-// Route to update an existing notification
-router.put("/notifications/:id", updateNotification);
+router.put("/:id", updateNotification);
 
-// Route to delete a notification
-router.delete("/notifications/:id", deleteNotification);
+router.delete("/:id", deleteNotification);
 
 module.exports = router;

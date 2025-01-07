@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ProjectCard from "./ProjectCards";
-import Particle from "../Particle";
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Form, Dropdown } from "react-bootstrap";
+import { FaThumbsUp, FaThumbsDown, FaComment, FaTrashAlt, FaEdit, FaEllipsisH } from "react-icons/fa";
 
 function PostDetails() {
   const { id } = useParams();
@@ -22,7 +22,7 @@ function PostDetails() {
       .then((res) => res.json())
       .then((data) => {
         setPost(data);
-        setEditPost(data); // Prepare the edit state
+        setEditPost(data);
       })
       .catch((err) => console.error("Error fetching post details:", err));
   }, [id]);
@@ -31,10 +31,12 @@ function PostDetails() {
     fetchPostById();
   }, [fetchPostById]); // Now it depends on the stable callback
 
-  // Handle closing the modal
+  useEffect(() => {
+    fetchPostById();
+  }, [fetchPostById]);
+
   const handleClose = () => setShowModal(false);
 
-  // Handle input changes in the edit form
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     setEditPost((prev) => ({
@@ -43,10 +45,8 @@ function PostDetails() {
     }));
   };
 
-  // Handle the submission of the edit form
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("title", editPost.title);
     formData.append("description", editPost.description);
@@ -55,14 +55,19 @@ function PostDetails() {
       formData.append("imgPath", editPost.imgPath);
     }
 
-    fetch(`http://localhost:5000/api/posts/${editPost.id}`, {
+    fetch(`http://localhost:5000/api/posts/${id}`, {
       method: "PUT",
       body: formData,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((updatedPost) => {
-        setPost(updatedPost); // Update the current post details
-        handleClose(); // Close the modal
+        setPost(updatedPost);
+        handleClose();
       })
       .catch((err) => console.error("Error updating post:", err));
   };
@@ -76,30 +81,52 @@ function PostDetails() {
   };
 
   return (
-    <Container fluid className="project-section">
-      <Particle />
-      <Container>
-        <h1 className="project-heading">
-          Post <strong className="purple">Details</strong>
-        </h1>
-        <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          <Col md={6}>
+    <Container fluid className="post-details-section" style={{ backgroundColor: "#fff", minHeight: "100vh", paddingTop: "50px" }}>
+      <Container className="py-5">
+        <Row className="justify-content-center">
+          <Col md={8}>
             {post ? (
-              <ProjectCard
-                id={post.id}
-                imgPath={post.imgPath}
-                title={post.title}
-                description={post.description}
-                author={post.author}
-                ghLink="#"
-                demoLink="#"
-                onEdit={() => setShowModal(true)}
-                onDelete={handleDelete}
-              />
+              <div className="post-details-content">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h1 className="display-4">{post.title}</h1>
+                  <Dropdown>
+                    <Dropdown.Toggle variant="link" id="dropdown-custom-components" style={{ border: "none", background: "transparent", padding: 0 }}>
+                      <FaEllipsisH size={20} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu align="end">
+                      <Dropdown.Item onClick={() => setShowModal(true)}>
+                        <FaEdit /> Edit
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={handleDelete} className="text-danger">
+                        <FaTrashAlt /> Delete
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+
+                <img
+                  src={"http://localhost:5000/" + post.imgPath}
+                  alt={post.title}
+                  className="img-fluid rounded mb-4"
+                  style={{ maxHeight: "500px", objectFit: "cover", width: "100%" }}
+                />
+                <p className="lead">{post.description}</p>
+                <p className="text-muted">By {post.author}</p>
+
+                <div className="action-buttons d-flex justify-content-end mt-4">
+                  <Button variant="outline-success" className="mx-2">
+                    <FaThumbsUp /> Like
+                  </Button>
+                  <Button variant="outline-danger" className="mx-2">
+                    <FaThumbsDown /> Dislike
+                  </Button>
+                  <Button variant="outline-info" className="mx-2">
+                    <FaComment /> Comment
+                  </Button>
+                </div>
+              </div>
             ) : (
-              <p style={{ textAlign: "center", fontSize: "1.2em" }}>
-                Loading post details...
-              </p>
+              <p className="text-center">Loading post details...</p>
             )}
           </Col>
         </Row>
@@ -147,11 +174,7 @@ function PostDetails() {
             </Form.Group>
             <Form.Group controlId="postImage" className="mt-3">
               <Form.Label>Image</Form.Label>
-              <Form.Control
-                type="file"
-                name="imgPath"
-                onChange={handleInputChange}
-              />
+              <Form.Control type="file" name="imgPath" onChange={handleInputChange} />
             </Form.Group>
             <Button variant="primary" type="submit" className="mt-4">
               Save Changes

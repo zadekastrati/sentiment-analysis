@@ -10,6 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: 'Users', key: 'user_id' }, // Use 'Users' here
+        references: {
+          model: 'Users',
+          key: 'user_id',
+        },
+        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       post_id: {
@@ -21,10 +26,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },
