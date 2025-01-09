@@ -4,7 +4,7 @@ const {
   createMessage,
   updateMessage,
   deleteMessage,
-} = require("../controllers/contactUsController"); // Importoni controllerat
+} = require("../controllers/contact-us-controller-file"); // Importoni controllerat
 
 const router = express.Router();
 

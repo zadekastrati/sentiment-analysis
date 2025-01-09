@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Modal, Form, Dropdown } from "react-bootstrap";
 import { FaThumbsUp, FaThumbsDown, FaComment, FaTrashAlt, FaEdit, FaEllipsisH } from "react-icons/fa";

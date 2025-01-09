@@ -3,8 +3,11 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const postsRoutes = require("./routes/postsRoutes");
 const notificationRoutes = require("./routes/notification-route-file");
-const contactUsRoutes = require("./routes/contact-us-route-file");
+const contactUsRoutes = require("./routes/contactUsRoutes");
 const interactionRoutes = require('./routes/interactionRoutes'); 
+const commentsRoutes = require("./routes/commentsRoutes");
+const roleRoutes =require("./routes/roleRoutes");
+
 
 const app = express();
 

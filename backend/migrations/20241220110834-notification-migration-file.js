@@ -27,18 +27,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-<<<<<<< HEAD
-=======
-      users_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Users", // referencë për tabelën e përdoruesve
-          key: "user_id",
-        },
-        onDelete: "CASCADE", // fshirja e njoftimeve kur fshihet përdoruesi
-      },
->>>>>>> 8c7ca18a8763856340358623c55a60caa04d1bc4
       type: {
         type: Sequelize.STRING,
         allowNull: false,

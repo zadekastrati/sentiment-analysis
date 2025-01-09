@@ -1,4 +1,4 @@
-const { Comment, User, Post } = require('../models');
+const { Comment, User, Post } = require('../models/commentsModel');
 
 module.exports = {
   // Create a new comment

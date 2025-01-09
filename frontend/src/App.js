@@ -12,6 +12,8 @@ import Roles from "./components/Dashboard/Roles";
 import Post from "./components/Dashboard/Posts";
 import ProfilePage from "./components/Dashboard/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
+import Footer from "./components/Footer";
+
 
 import Notifications from "./components/Dashboard/Notifications";
 import ContactUs from "./components/Dashboard/ContactUs";
