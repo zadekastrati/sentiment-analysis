@@ -1,4 +1,4 @@
-const { User } = require('../models/users');
+const User = require('../models/users');
 
 exports.createUser = async (req, res) => {
   try {
@@ -13,7 +13,7 @@ exports.createUser = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.params.user_id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -26,7 +26,8 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
+    console.log(User);
+    const user = await User.findByPk(req.params.user_id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -41,7 +42,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.params.user_id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
